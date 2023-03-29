@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name">ApplicatioSimple</string>
+    <string name="app_name">ApplicationSimple</string>
+    <string name="hint_for_city">Выберите город</string>
+    <string name="buy">Покупка</string>
+    <string name="sale">Продажа</string>
+    <string name="currency">Валюта</string>
+    <string name="usd">USD</string>
+    <string name="eur">EUR</string>
+    <string name="rub">RUB</string>
+    <string-array name="cities">
+        <item>Брест</item>
+        <item>Витебск</item>
+        <item>Гомель</item>
+        <item>Гродно</item>
+        <item>Минск</item>
+        <item>Могилёв</item>
+    </string-array>
 </resources>

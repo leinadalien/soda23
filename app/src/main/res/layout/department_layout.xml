@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp"
+    app:cardBackgroundColor="@color/card_background"
+    android:layout_margin="10dp"
+    >
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnCount="3"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        >
+
+        <TextView android:text="@string/currency" style="@style/gridLayoutItem" android:layout_rowWeight="0"/>
+        <TextView android:text="@string/buy" style="@style/gridLayoutItem" android:layout_rowWeight="0"/>
+        <TextView android:text="@string/sale" style="@style/gridLayoutItem" android:layout_rowWeight="0"/>
+        <TextView android:text="@string/usd" style="@style/gridLayoutItem"/>
+        <TextView android:id="@+id/usd_buy_textview" style="@style/gridLayoutItem"/>
+        <TextView android:id="@+id/usd_sale_textview" style="@style/gridLayoutItem"/>
+        <TextView android:text="@string/eur" style="@style/gridLayoutItem"/>
+        <TextView android:id="@+id/eur_buy_textview" style="@style/gridLayoutItem"/>
+        <TextView android:id="@+id/eur_sale_textview" style="@style/gridLayoutItem"/>
+        <TextView android:text="@string/rub" style="@style/gridLayoutItem"/>
+        <TextView android:id="@+id/rub_buy_textview" style="@style/gridLayoutItem"/>
+        <TextView android:id="@+id/rub_sale_textview" style="@style/gridLayoutItem"/>
+        <TextView android:id="@+id/department_description" style="@style/gridLayoutItem" android:layout_columnSpan="3"/>
+    </GridLayout>
+
+</com.google.android.material.card.MaterialCardView>

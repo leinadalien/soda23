@@ -1,4 +1,4 @@
-package com.example.applicatiosimple
+package com.example.applicationsimple
 
 import org.junit.Test
 
