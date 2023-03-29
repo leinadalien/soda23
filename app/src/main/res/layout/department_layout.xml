@@ -6,6 +6,9 @@
     app:cardCornerRadius="10dp"
     app:cardBackgroundColor="@color/card_background"
     android:layout_margin="10dp"
+    android:elevation="0dp"
+    app:strokeWidth="2dp"
+    app:strokeColor="@color/design_default_color_primary"
     >
     <GridLayout
         android:layout_width="match_parent"
@@ -14,7 +17,6 @@
         android:orientation="horizontal"
         android:layout_gravity="center"
         >
-
         <TextView android:text="@string/currency" style="@style/gridLayoutItem" android:layout_rowWeight="0"/>
         <TextView android:text="@string/buy" style="@style/gridLayoutItem" android:layout_rowWeight="0"/>
         <TextView android:text="@string/sale" style="@style/gridLayoutItem" android:layout_rowWeight="0"/>
@@ -27,7 +29,12 @@
         <TextView android:text="@string/rub" style="@style/gridLayoutItem"/>
         <TextView android:id="@+id/rub_buy_textview" style="@style/gridLayoutItem"/>
         <TextView android:id="@+id/rub_sale_textview" style="@style/gridLayoutItem"/>
-        <TextView android:id="@+id/department_description" style="@style/gridLayoutItem" android:layout_columnSpan="3"/>
+        <TextView
+            android:id="@+id/department_description"
+            style="@style/gridLayoutItem"
+            android:layout_columnSpan="3"
+            android:textColor="@color/card_dark_background"
+            android:gravity="bottom"/>
     </GridLayout>
 
 </com.google.android.material.card.MaterialCardView>

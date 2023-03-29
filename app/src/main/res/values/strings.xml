@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ApplicationSimple</string>
+    <string name="app_name">Курсы валют</string>
     <string name="hint_for_city">Выберите город</string>
     <string name="buy">Покупка</string>
     <string name="sale">Продажа</string>
@@ -7,6 +7,8 @@
     <string name="usd">USD</string>
     <string name="eur">EUR</string>
     <string name="rub">RUB</string>
+    <string name="waiting_message">Пожалуйста подождите</string>
+    <string name="start_message">Здесь появятся банки</string>
     <string-array name="cities">
         <item>Брест</item>
         <item>Витебск</item>
