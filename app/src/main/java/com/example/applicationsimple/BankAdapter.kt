@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.applicationsimple.Data.BankDepartment
+import com.example.applicationsimple.data.models.BankDepartment
 
 class BankAdapter : RecyclerView.Adapter<BankAdapter.BankHolder>() {
     private var banks = ArrayList<BankDepartment>()
@@ -20,8 +20,12 @@ class BankAdapter : RecyclerView.Adapter<BankAdapter.BankHolder>() {
     }
 
     fun setBanks(banks:List<BankDepartment>) {
-        this.banks = banks as ArrayList<BankDepartment>
-        notifyDataSetChanged()
+        if (banks.isNotEmpty()) {
+            this.banks = banks as ArrayList<BankDepartment>
+            notifyDataSetChanged()
+        } else {
+            this.banks.clear()
+        }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BankHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.department_layout, parent, false)
@@ -31,13 +35,13 @@ class BankAdapter : RecyclerView.Adapter<BankAdapter.BankHolder>() {
     override fun onBindViewHolder(holder: BankHolder, position: Int) {
         val department = banks[position]
         holder.apply {
-            USDBuyTextview.text = department.USD_in
-            USDSaleTextview.text = department.USD_out
-            EURBuyTextview.text = department.EUR_in
-            EURSaleTextview.text = department.EUR_out
-            RUBBuyTextview.text = department.RUB_in
-            RubSaleTextview.text = department.RUB_out
-            descriptionTextView.text = "${department.street_type} ${department.street}, д ${department.home_number}"
+            USDBuyTextview.text = department.USDIn.toString()
+            USDSaleTextview.text = department.USDOut.toString()
+            EURBuyTextview.text = department.EURIn.toString()
+            EURSaleTextview.text = department.EUROut.toString()
+            RUBBuyTextview.text = department.RUBIn.toString()
+            RubSaleTextview.text = department.RUBOut.toString()
+            descriptionTextView.text = "${department.streetType} ${department.street}, д ${department.homeNumber}"
         }
     }
 

@@ -1,6 +1,5 @@
-package com.example.applicationsimple.Data
+package com.example.applicationsimple.data.remote
 
-import com.example.applicationsimple.Interfaces.BelarusbankAPI
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -8,7 +7,7 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitService {
     private val okHttpClient = OkHttpClient.Builder()
-        .readTimeout(20, TimeUnit.SECONDS)
+        .readTimeout(2, TimeUnit.MINUTES)
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://belarusbank.by/api/")

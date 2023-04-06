@@ -1,5 +1,8 @@
 package com.example.applicationsimple
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,26 +15,42 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.applicationsimple.data.models.BankDepartment
+import com.example.applicationsimple.data.repositories.BankRepositoryImpl
 
 class MainFragment : Fragment() {
-    private val viewModel by viewModels<MainViewModel>()
+    private val viewModel by viewModels<MainViewModel> {
+        RepositoryViewModelFactory(
+            BankRepositoryImpl()
+        )
+    }
+    private lateinit var autoCompleteTextView: AutoCompleteTextView
+    private lateinit var displayedMessage: TextView
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var bankAdapter: BankAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.main_fragment, container, false)
-        val displayedMessage: TextView = view.findViewById(R.id.displayed_message)
-        val autoCompleteTextView: AutoCompleteTextView = view.findViewById(R.id.dropdown_menu)
-        val recyclerView: RecyclerView = view.findViewById(R.id.recyclerview)
-        val bankAdapter = BankAdapter()
-        recyclerView.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL, false)
+        return inflater.inflate(R.layout.main_fragment, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        displayedMessage = view.findViewById(R.id.displayed_message)
+        autoCompleteTextView = view.findViewById(R.id.dropdown_menu)
+        recyclerView = view.findViewById(R.id.recyclerview)
+        bankAdapter = BankAdapter()
+        recyclerView.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recyclerView.adapter = bankAdapter
-        viewModel.observableBanks.observe(viewLifecycleOwner) {
-            bankAdapter.setBanks(it)
-            recyclerView.visibility = View.VISIBLE
-            displayedMessage.visibility = View.GONE
-        }
+        citiesSelectorSetup()
+        observeBanks()
+    }
+
+    private fun citiesSelectorSetup() {
         autoCompleteTextView.setAdapter(
             ArrayAdapter(
                 requireContext(),
@@ -40,12 +59,44 @@ class MainFragment : Fragment() {
             )
         )
         autoCompleteTextView.onItemClickListener =
-            AdapterView.OnItemClickListener { parent, view_arg, position, id ->
-                viewModel.getBanksInCity((view_arg as TextView).text.toString())
-                displayedMessage.text = resources.getString(R.string.waiting_message)
-                displayedMessage.visibility = View.VISIBLE
-                recyclerView.visibility = View.GONE
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                if (checkConnection()) {
+                    viewModel.getBanksInCity((view as TextView).text.toString())
+                    displayMessage(resources.getString(R.string.waiting_message))
+                } else {
+                    displayMessage(resources.getString(R.string.no_internet_message))
+                }
             }
-        return view
+    }
+    private fun displayBanks(banks: List<BankDepartment>) {
+        if (banks.isNotEmpty()) {
+            bankAdapter.setBanks(banks)
+            recyclerView.visibility = View.VISIBLE
+            displayedMessage.visibility = View.GONE
+        } else {
+            displayMessage(resources.getString(R.string.timeout_error))
+        }
+    }
+    private fun displayMessage(message: String) {
+        displayedMessage.text = message
+        displayedMessage.visibility = View.VISIBLE
+        recyclerView.visibility = View.GONE
+    }
+    private fun observeBanks() {
+        viewModel.observableBanks.observe(viewLifecycleOwner) {
+            displayBanks(it)
+        }
+    }
+    private fun checkConnection(): Boolean {
+        var result = false
+        context?.let {
+            val connectivityManager =
+                it.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val networkCapabilities =
+                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            result =
+                networkCapabilities != null && networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+        }
+        return result
     }
 }
